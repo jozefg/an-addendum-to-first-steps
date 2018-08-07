@@ -1,0 +1,306 @@
+\documentclass{amsart}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+\usepackage{natbib}
+
+% Theorems
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{remark}[thm]{Remark}
+\newtheorem{example}[thm]{Example}
+\newtheorem{defn}[thm]{Definition}
+
+% Categories stuff
+\newcommand{\Ccat}{\ensuremath{\mathbb{C}}}
+\newcommand{\Dcat}{\ensuremath{\mathbb{D}}}
+\newcommand{\op}[1]{\ensuremath{#1^{\mathsf{op}}}}
+\newcommand{\SET}{\ensuremath{\mathbf{Set}}}
+\newcommand{\presheaves}[1]{\ensuremath{\widehat{#1}}}
+\newcommand{\transpose}[1]{\ensuremath{\widehat{#1}}}
+\newcommand{\symmetrize}[1]{\ensuremath{\widetilde{#1}}}
+\newcommand{\pair}[2]{\ensuremath{\left\langle #1, #2 \right\rangle}}
+\newcommand{\fix}[1]{\ensuremath{\mathsf{fix}(#1)}}
+\newcommand{\lam}[2]{\ensuremath{\lambda #1.\,#2}}
+\newcommand{\arr}[1]{\ensuremath{\overrightarrow{#1}}}
+
+\title{An Addendum to Section 7 of \emph{First Steps in Synthetic
+    Guarded Domain Theory}}
+\author{Daniel Gratzer}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+The following is a brief explanation of how to fill a small gap in the
+proof of Theorem 7.5 in \citet{Birkedal:11} that I couldn't originally
+see how to fill. The crux of the issue is that when symmetrizing a
+functor which takes two arguments:
+$F : \Dcat \times (\op{\Ccat} \times \Ccat) \to \Ccat$, it is only
+reasonable to set $\symmetrize{F}$ to the following type.
+\[
+  \symmetrize{F} : \op{\Dcat} \times \Dcat \times \op{\Ccat} \times \Ccat \to \op{\Ccat} \times \Ccat
+\]
+For which the definition of the object half of the new functor is:
+\[
+  \symmetrize{F}(D_1, D_2, C_1, C_2) = (F(D_1, C_2, C_1), F(D_2, C_1, C_2))
+\]
+This alteration means that the lemmas provided in \citet{Birkedal:11}
+must be generalized slightly to handle this.
+\begin{lem}[Fixed Points are Initial]\label{lem:initial}
+  If $F$ is a locally contractive functor $F : \Ccat \to \Ccat$ and
+  $I$ is an object so that $\iota : F(I) \cong I$ then
+  $\iota : F(I) \to I$ forms an initial algebra for $F$.
+\end{lem}
+\begin{proof}
+  In order to show that this algebra is initial, suppose we have some
+  $g : F(A) \to A$. We define the unique algebra homomorphism as the
+  unique fixed point to the following contractive function.
+  \[
+    h \mapsto g \circ F(h) \circ \iota^{-1}
+  \]
+  This map is contractive by the assumption that the morphism
+  component of $F$ is witnessed by contractive maps. This is obviously
+  an algebra homomorphism. Any algebra homomorphism, $h'$, must
+  satisfy the equation
+  \[
+    h' \circ \iota = g \circ F(h) \iff
+    h' = g \circ F(h) \circ \iota^{-1}
+  \]
+  Therefore any algebra homomorphism is a fixed point of the above
+  equation and by the uniqueness of fixed points $h' = h$.
+\end{proof}
+\begin{lem}\label{lem:internal-choice}
+  The choice of initial maps from Lemma~\ref{lem:initial} may be given
+  as a family of maps. Explicitly, if $\iota : F(I) \cong I$ then, for
+  any $Z$, there is a $f_z : Z^{F(Z)} \to Z^I$ satisfying the
+  following formula internally.
+  \[
+    \forall g : Z^{F(Z)}.\ f_z(g) \circ \iota = g \circ F(f_z(g))
+  \]
+\end{lem}
+\begin{proof}
+  The construction of these families of maps is trivial. The for some
+  $Z$ is given by
+  \[
+    f_z = \lam{g : Z^{F(Z)}}{\fix{\lam{h : Z^I}{g \circ F(h) \circ \iota^{-1}}}}
+  \]
+  The formula follows in the internal language by the fact that in the
+  internal language we have that $\fix{f} = f(\fix{f})$ when $f$ is
+  contractive, as follows from the Axiom of Unique Choice (a proof
+  that this holds in any topos may be found in Theorem II.5.9 of
+  \citet{Lambek:88}) and the fact that $\fix{-}$ gives a fixed point
+  internally, see Theorem 2.9~\citep{Birkedal:11}.
+\end{proof}
+We now turn to the part which actually differs. A number of the small
+lemmas given in the paper must be given explicitly with regards to a
+parameterization in order to be sufficiently general to compose in the
+final proof.
+\begin{lem}[Parameterized Initial Algebras]\label{lem:parameterized-initial-algebra}
+  If $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$, then for
+  any $A, B \in \Dcat$ if there is an $X, Y \in \Ccat$ so that
+  \[
+    \iota_2 : F(A, X, Y) \cong Y \qquad \iota_1 : F(B, Y, X) \cong X
+  \]
+  Then $(X, Y)$ is an initial algebra of
+  $\symmetrize{F}(A, B, -, -) : \op{\Ccat} \times \Ccat \to \op{\Ccat}
+  \times \Ccat$. Furthermore, if $A \cong B$ then $X \cong Y$.
+\end{lem}
+\begin{proof}
+  Under these assumptions we may construct an isomorphism
+  $(\iota_1, \iota_2) : \symmetrize{F}(A, B, X, Y) \to (X, Y)$. By
+  Lemma~\ref{lem:initial} then this tells us that $(\iota_1, \iota_2)$
+  is an initial algebra. Moreover, if $A \cong B$ then we may easily
+  construct an initial algebra structure on $(Y, X)$ so that in this
+  case $X \cong Y$.
+\end{proof}
+\begin{lem}\label{lem:flipped-initial-algebras}
+  For all
+  $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$,
+  if for some $A, B \in \Dcat$ there is an $X, Y \in \Ccat$ so that
+  $(X, Y)$ is an initial algebra for $\symmetrize{F}(A, B, -, -)$, then
+  $(Y, X)$ is an initial algebra for $\symmetrize{F}(B, A, -, -)$ in
+  $\Ccat \times \op{\Ccat}$.
+\end{lem}
+\begin{proof}
+  First, if $(X, Y)$ is an initial algebra for
+  $\symmetrize{F}(A, B, -, -)$ then we have $i_1 : X \to F(A, Y, X)$
+  and $i_2 : F(B, X, Y) \to Y$ satisfying the appropriate universal
+  property.
+
+  An algebra for $\symmetrize{F}(B, A, -, -)$ in
+  $\op{\Ccat} \times \Ccat$ is some $(W, Z)$ equipped with a map
+  $g : \symmetrize{F}(B, A, W, Z) \to (W, Z)$. That is, a map
+  $g_1 : F(A, Z, W) \to W$ and $g_2 : Z \to F(B, W, Z)$. This is
+  precisely the data required for an algebra for $(Z, W)$ on
+  $\symmetrize{F}(A, B, -, -)$ in $\op{\Ccat} \times \Ccat$ so there's
+  a unique map $(h_1, h_2) : (X, Y) \to (Z, W)$. It is easy to observe
+  that $(h_2, h_1) : (Y, X) \to (W, Z)$ in $\Ccat \times \op{\Ccat}$
+  and that this constitutes an algebra homomorphism for
+  $F(B, A, -, -)$. Uniqueness is given by the fact that all algebra
+  homomorphisms arise in this way.
+\end{proof}
+This lemma goes through unchanged.
+\begin{lem}\label{lem:mu-construction}
+  Suppose that $F : \Dcat \times \Ccat \to \Ccat$ and for any
+  $D \in \Dcat$ that $F(D, -)$ has an initial algebra,
+  $f_D : F(D, I_D) \to I_D$, then there exists a functor
+  $\mu F : \Dcat \to \Ccat$ so that for all $D \in \Dcat$, $\mu F(D)$
+  is the initial algebra for $F(D, -)$ (given by an appropriate family
+  of morphisms internally witnessing initiality as in
+  Lemma~\ref{lem:internal-choice}).
+
+  Moreover, if $F$ is contractive in $\Dcat$ then so is $\mu F$.
+\end{lem}
+\begin{proof}
+  Define the object part of $(\mu F)(D) = I_D$. Then, for a morphism
+  $g : D \to D'$ define $(\mu F)(g)$ to be the unique algebra
+  homomorphism fitting into the diagram below.
+  \[
+    \begin{tikzcd}
+      F(D, I_D) \ar[dd, swap, "f_D"] \ar[r, "{F(D, h)}"] & F(D, I_{D'}) \ar[d, "{F(g, I_{D'})}"]\\
+      & F(D', I_{D'}) \ar[d, "f_{D'}"]\\
+      I_D \ar[r, swap, "h"] & I_{D'}
+    \end{tikzcd}
+  \]
+  Then this gives the desired morphism $(\mu F)(g) = h$. The
+  functoriality of this choice is a direct result of the fact that $h$
+  is unique with the property of being a homomorphism between these
+  two algebras.
+
+  The morphism part of this functor can be expressed as an indexed
+  family of maps by composing the given family of maps for choosing
+  initial algebras with the map $Y^X \to I_Y^{F(X, I_Y)}$ using the
+  morphisms associated with $F$ as well as $f_Y$. This choice is
+  contractive if $F$ is contractive since we compose with the strength
+  of $F$.
+\end{proof}
+
+\begin{lem}[Unparameterized Mixed Variance Fixed Points]\label{lem:unparameterized}
+  For any $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$ and
+  $A, B \in \Dcat$, if $\Ccat$ has solutions to contractive functors
+  then there exists an $X$ and a $Y$ so that
+  \[
+    F(A, X, Y) \cong Y \qquad F(B, Y, X) \cong X
+  \]
+\end{lem}
+\begin{proof}
+  Define $G = F(A, -, -) : \op{\Ccat} \times \Ccat \to \Ccat$ and also
+  define $H = \mu F(B, -, -) : \op{\Ccat} \to \Ccat$ using the
+  construction given in Lemma~\ref{lem:mu-construction} sending each
+  $C \in \op{\Ccat}$ to the fixed point of $F(B, C, -)$.
+
+  Set $X$ as the fixed point of $C \mapsto G(H(C), C)$ (here viewing
+  $H : \Ccat \to \op{\Ccat}$) and set $Y = H(X)$. Then we have that
+  $X \cong G(H(X), X) = F(A, H(X), X) = F(A, Y, X)$ and
+  $Y = H(X) \cong F(B, X, Y)$.
+\end{proof}
+
+\begin{thm}[Functorially Parameterized Fixed Points]
+  Suppose that
+  $F : (\op{\Ccat} \times \Ccat)^n \times (\op{\Ccat} \times \Ccat) \to \Ccat$
+  and is contractive in the final pair of $\op{\Ccat} \times
+  \Ccat$. Then there exists a functor $\fix{F}$ so that
+  \[
+    \fix{F} : (\op{\Ccat} \times \Ccat)^n \to \Ccat
+  \]
+  and so that
+  \[
+    F \circ \pair{1}{\symmetrize{\fix{F}}} \cong \fix{F}
+  \]
+  Moreover, if $F$ is contractive in all pairs then so is $\fix{F}$.
+\end{thm}
+\begin{proof}
+  Set $\Dcat = (\op{\Ccat} \times \Ccat)^n$, then
+  $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$ and therefore
+  Lemma~\ref{lem:unparameterized} applies to give us the preconditions
+  to Lemma~\ref{lem:parameterized-initial-algebra} so we have a choice
+  of initial algebras for $\symmetrize{F}(A, B, -, -)$,
+  $(X_{A, B}, Y_{A, B})$ for any $A, B \in \Dcat$ so that if
+  $A \cong B$ then $X_{A, B} \cong Y_{A, B}$. Recall that
+  $\symmetrize{F}$ has the type:
+  \[
+    \symmetrize{F} :
+    (\op{\Dcat} \times \Dcat) \times (\op{\Ccat} \times \Ccat) \to (\op{\Ccat} \to \Ccat)
+  \]
+  This is in the shape for Lemma~\ref{lem:mu-construction} where we
+  view the $\Dcat$ of this lemma as our $\op{\Dcat} \times \Dcat$ and
+  $\Ccat$ as our $\op{\Ccat} \times \Ccat$. This gives us a functor
+  \[
+    \mu \symmetrize{F} :
+    \op{\Dcat} \times \Dcat \to \op{\Ccat} \times \Ccat
+  \]
+  This functor is equipped with the property that
+  $\mu \symmetrize{F}(A, B) = (X_{A, B}, Y_{A, B})$. Observe that since
+  $\Dcat = (\op{\Ccat} \times \Ccat)^n$ there is a functor
+  aspirationally named $\Delta : \Dcat \to \op{\Dcat} \times \Dcat$
+  defined by
+  \[
+    \Delta(\arr{C^o}, \arr{C}) = ((\arr{C}, \arr{C^o}), (\arr{C^o}, \arr{C}))
+  \]
+  Finally, compose with the $\Delta$ and the projection:
+  \[
+    \fix{F} = \pi_2 \circ \mu \symmetrize{F} \circ \Delta
+    : \Dcat \to \Ccat
+  \]
+  To get the final property desired, suppose we have some
+  $D = (\vec{C^o}, \arr{C}) \in (\op{\Ccat} \times \Ccat)^n$. As a
+  small piece of notation, write $\op{D}$ for $(\vec{C}, \arr{C^o})$.
+  Then notice that (if we denote the initial algebra constructed above
+  for $\symmetrize{F}(\op{D}, D, -, -)$ as $(X, Y)$) the following
+  holds.
+  \begin{align*}
+    \fix{F}((\arr{C^o}, \arr{C}))
+    &= (\pi_2 \circ \mu \symmetrize{F} \circ \Delta)(D)\\
+    &= (\pi_2 \circ \mu \symmetrize{F})(\op{D}, D)\\
+    &= \pi_2(X, Y) && \text{$\mu \symmetrize{F}$ is the initial
+                      algebra at every point}\\
+    &= Y
+  \end{align*}
+  Now on the other hand, if we consider the left-hand side of the
+  equation we have
+  \begin{align*}
+    (F \circ \pair{1}{\symmetrize{\fix{F}}})(\arr{C^o}, \arr{C})
+    &= F(D, \fix{F}(\op{D}), \fix{F}(D))\\
+    &= F(D, \fix{F}(\op{D}), Y)\\
+    &\cong F((\arr{C^o}, \arr{C}), X, Y)  && \text{This step is justified below.}\\
+    &\cong Y
+  \end{align*}
+  With the last inference following by the results of
+  Lemma~\ref{lem:unparameterized} which was used above to construct
+  $X$ and $Y$. We have also made use of here that if $(X, Y)$ is an
+  initial algebra for $\symmetrize{F}(\op{D}, D, -, -)$ viewed as
+  $\op{\Ccat} \times \Ccat \to \op{\Ccat} \times \Ccat$ then $(Y, X)$
+  is an initial algebra for $\symmetrize{F}(D, \op{D}, -, -)$ viewed
+  as $\Ccat \times \op{\Ccat} \to \Ccat \times \op{\Ccat}$. This
+  follows precisely from
+  Lemma~\ref{lem:flipped-initial-algebras}. Explicitly worked out:
+  \begin{align*}
+    \fix{F}(\op{D})
+    &= (\pi_2 \circ \mu \symmetrize{F} \circ \Delta)(\op{D})\\
+    &= (\pi_2 \circ \mu \symmetrize{F})(D, \op{D})\\
+    &\cong \pi_2(Y, X) && \text{$\mu \symmetrize{F}(D, \op{D})$ is the initial
+                      algebra in $\Ccat \times \op{\Ccat}$}\\
+    &= X
+  \end{align*}
+  Note further that the second to last line is merely an isomorphism:
+  this is because we are only guaranteed to choose some initial
+  algebra, not $(Y, X)$ in particular. The uniqueness of initial
+  algebras up to isomorphism is sufficient to determine the fact that
+  we wanted however. One can view this as baking in the final line of
+  reasoning for Lemma~\ref{lem:parameterized-initial-algebra} and it
+  explains why we never made explicit use of this fact.
+
+  This demonstrates the desired isomorphism.
+
+  The fact that $\fix{F}$ is contractive in all pairs is a result of
+  the fact that $\mu \symmetrize{F}$ is contractive in its first
+  argument if $F$ is.
+\end{proof}
+
+\bibliographystyle{plainnat}
+\bibliography{citations}
+\end{document}
