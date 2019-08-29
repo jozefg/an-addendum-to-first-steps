@@ -25,7 +25,11 @@
 \newcommand{\pair}[2]{\ensuremath{\left\langle #1, #2 \right\rangle}}
 \newcommand{\fix}[1]{\ensuremath{\mathsf{fix}(#1)}}
 \newcommand{\lam}[2]{\ensuremath{\lambda #1.\,#2}}
-\newcommand{\arr}[1]{\ensuremath{\overrightarrow{#1}}}
+\makeatletter
+\def\rightharpoonupfill@{\arrowfill@\relbar\relbar\rightharpoonup}
+\newcommand{\arr}{\mathpalette{\overarrow@\rightharpoonupfill@}}
+\makeatother
+
 
 \title{An Addendum to Section 7 of \emph{First Steps in Synthetic
     Guarded Domain Theory}}
@@ -224,7 +228,7 @@ This lemma goes through unchanged.
   $\symmetrize{F}$ has the type:
   \[
     \symmetrize{F} :
-    (\op{\Dcat} \times \Dcat) \times (\op{\Ccat} \times \Ccat) \to (\op{\Ccat} \to \Ccat)
+    (\op{\Dcat} \times \Dcat) \times (\op{\Ccat} \times \Ccat) \to (\op{\Ccat} \times \Ccat)
   \]
   This is in the shape for Lemma~\ref{lem:mu-construction} where we
   view the $\Dcat$ of this lemma as our $\op{\Dcat} \times \Dcat$ and
@@ -247,8 +251,8 @@ This lemma goes through unchanged.
     : \Dcat \to \Ccat
   \]
   To get the final property desired, suppose we have some
-  $D = (\vec{C^o}, \arr{C}) \in (\op{\Ccat} \times \Ccat)^n$. As a
-  small piece of notation, write $\op{D}$ for $(\vec{C}, \arr{C^o})$.
+  $D = (\arr{C^o}, \arr{C}) \in (\op{\Ccat} \times \Ccat)^n$. As a
+  small piece of notation, write $\op{D}$ for $(\arr{C}, \arr{C^o})$.
   Then notice that (if we denote the initial algebra constructed above
   for $\symmetrize{F}(\op{D}, D, -, -)$ as $(X, Y)$) the following
   holds.
