@@ -52,7 +52,7 @@ This alteration means that the lemmas provided in \citet{Birkedal:11}
 must be generalized slightly to handle this.
 \begin{lem}[Fixed Points are Initial]\label{lem:initial}
   If $F$ is a locally contractive functor $F : \Ccat \to \Ccat$ and
-  $I$ is an object so that $\iota : F(I) \cong I$ then
+  $I$ is an object such that $\iota : F(I) \cong I$ then
   $\iota : F(I) \to I$ forms an initial algebra for $F$.
 \end{lem}
 \begin{proof}
@@ -67,8 +67,8 @@ must be generalized slightly to handle this.
   an algebra homomorphism. Any algebra homomorphism, $h'$, must
   satisfy the equation
   \[
-    h' \circ \iota = g \circ F(h) \iff
-    h' = g \circ F(h) \circ \iota^{-1}
+    h' \circ \iota = g \circ F(h') \iff
+    h' = g \circ F(h') \circ \iota^{-1}
   \]
   Therefore any algebra homomorphism is a fixed point of the above
   equation and by the uniqueness of fixed points $h' = h$.
@@ -83,17 +83,17 @@ must be generalized slightly to handle this.
   \]
 \end{lem}
 \begin{proof}
-  The construction of these families of maps is trivial. The for some
+  The construction of these families of maps is trivial. The map for some
   $Z$ is given by
   \[
     f_z = \lam{g : Z^{F(Z)}}{\fix{\lam{h : Z^I}{g \circ F(h) \circ \iota^{-1}}}}
   \]
-  The formula follows in the internal language by the fact that in the
-  internal language we have that $\fix{f} = f(\fix{f})$ when $f$ is
-  contractive, as follows from the Axiom of Unique Choice (a proof
-  that this holds in any topos may be found in Theorem II.5.9 of
-  \citet{Lambek:88}) and the fact that $\fix{-}$ gives a fixed point
-  internally, see Theorem 2.9~\citep{Birkedal:11}.
+  The formula follows in the internal language by the fact that in the internal language we have
+  that a map $\fix{-}$ such that $\fix{f} = f(\fix{f})$ when $f$ is contractive. This map may be
+  constructed using unique choice, fixed points are unique so we can construct a functional from the
+  internal property that they exist (a proof that unique choice holds in any topos may be found in
+  Theorem II.5.9 of \citet{Lambek:88}). The proof that we have unique fixed points is given by
+  Theorem 2.9~\citep{Birkedal:11}.
 \end{proof}
 We now turn to the part which actually differs. A number of the small
 lemmas given in the paper must be given explicitly with regards to a
@@ -101,7 +101,7 @@ parameterization in order to be sufficiently general to compose in the
 final proof.
 \begin{lem}[Parameterized Initial Algebras]\label{lem:parameterized-initial-algebra}
   If $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$, then for
-  any $A, B \in \Dcat$ if there is an $X, Y \in \Ccat$ so that
+  any $A, B \in \Dcat$ if there is an $X, Y \in \Ccat$ such that
   \[
     \iota_2 : F(A, X, Y) \cong Y \qquad \iota_1 : F(B, Y, X) \cong X
   \]
@@ -114,13 +114,13 @@ final proof.
   $(\iota_1, \iota_2) : \symmetrize{F}(A, B, X, Y) \to (X, Y)$. By
   Lemma~\ref{lem:initial} then this tells us that $(\iota_1, \iota_2)$
   is an initial algebra. Moreover, if $A \cong B$ then we may easily
-  construct an initial algebra structure on $(Y, X)$ so that in this
+  construct an initial algebra structure on $(Y, X)$ such that in this
   case $X \cong Y$.
 \end{proof}
 \begin{lem}\label{lem:flipped-initial-algebras}
   For all
   $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$,
-  if for some $A, B \in \Dcat$ there is an $X, Y \in \Ccat$ so that
+  if for some $A, B \in \Dcat$ there is an $X, Y \in \Ccat$ such that
   $(X, Y)$ is an initial algebra for $\symmetrize{F}(A, B, -, -)$, then
   $(Y, X)$ is an initial algebra for $\symmetrize{F}(B, A, -, -)$ in
   $\Ccat \times \op{\Ccat}$.
@@ -148,7 +148,7 @@ This lemma goes through unchanged.
   Suppose that $F : \Dcat \times \Ccat \to \Ccat$ and for any
   $D \in \Dcat$ that $F(D, -)$ has an initial algebra,
   $f_D : F(D, I_D) \to I_D$, then there exists a functor
-  $\mu F : \Dcat \to \Ccat$ so that for all $D \in \Dcat$, $\mu F(D)$
+  $\mu F : \Dcat \to \Ccat$ such that for all $D \in \Dcat$, $\mu F(D)$
   is the initial algebra for $F(D, -)$ (given by an appropriate family
   of morphisms internally witnessing initiality as in
   Lemma~\ref{lem:internal-choice}).
@@ -182,7 +182,7 @@ This lemma goes through unchanged.
 \begin{lem}[Unparameterized Mixed Variance Fixed Points]\label{lem:unparameterized}
   For any $F : \Dcat \times \op{\Ccat} \times \Ccat \to \Ccat$ and
   $A, B \in \Dcat$, if $\Ccat$ has solutions to contractive functors
-  then there exists an $X$ and a $Y$ so that
+  then there exists an $X$ and a $Y$ such that
   \[
     F(A, X, Y) \cong Y \qquad F(B, Y, X) \cong X
   \]
@@ -203,11 +203,11 @@ This lemma goes through unchanged.
   Suppose that
   $F : (\op{\Ccat} \times \Ccat)^n \times (\op{\Ccat} \times \Ccat) \to \Ccat$
   and is contractive in the final pair of $\op{\Ccat} \times
-  \Ccat$. Then there exists a functor $\fix{F}$ so that
+  \Ccat$. Then there exists a functor $\fix{F}$ such that
   \[
     \fix{F} : (\op{\Ccat} \times \Ccat)^n \to \Ccat
   \]
-  and so that
+  and such that
   \[
     F \circ \pair{1}{\symmetrize{\fix{F}}} \cong \fix{F}
   \]
@@ -219,7 +219,7 @@ This lemma goes through unchanged.
   Lemma~\ref{lem:unparameterized} applies to give us the preconditions
   to Lemma~\ref{lem:parameterized-initial-algebra} so we have a choice
   of initial algebras for $\symmetrize{F}(A, B, -, -)$,
-  $(X_{A, B}, Y_{A, B})$ for any $A, B \in \Dcat$ so that if
+  $(X_{A, B}, Y_{A, B})$ for any $A, B \in \Dcat$ such that if
   $A \cong B$ then $X_{A, B} \cong Y_{A, B}$. Recall that
   $\symmetrize{F}$ has the type:
   \[
